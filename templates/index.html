@@ -105,7 +105,38 @@
                 </div>
                 <button class="btn-primary" id="analyzeBtn" onclick="runAnalysis()">🔍 Analyze Plant</button>
             </div>
-        </div>
-    </div>
+        </div> </div> <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script>
+    let currentMode = 'upload';
+    let scanCount = 0;
+    let chartInstance = null;
+    let currentPlantData = null;
+    let base64Img = null;
+
+    function setTab(mode) {
+        currentMode = mode;
+        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+        // logic to switch tabs...
+    }
+
+    function previewFile(input) {
+        const file = input.files[0];
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            base64Img = e.target.result.split(',')[1];
+            document.getElementById('dz').innerHTML = `<img src="${e.target.result}" style="max-width:100%; border-radius:10px; max-height:200px">`;
+        };
+        reader.readAsDataURL(file);
+    }
+
+    async function runAnalysis() {
+        if(!base64Img) return alert("Please provide a plant image.");
+        // your logic for the loader and results...
+        alert("Analysis starting!"); 
+    }
+    
+    // Copy the rest of the script functions I gave you earlier here...
+</script>
+
 </body>
 </html>
