@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Plant Disease Detection</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #0f2027, #2c5364);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            color: white;
+        }
+
+        .card {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(20px);
+            padding: 30px;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 420px;
+            text-align: center;
+        }
+
+        button {
+            background: #00c853;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        img {
+            margin-top: 10px;
+            width: 100%;
+            border-radius: 10px;
+            display: none;
+        }
+
+        .result {
+            margin-top: 15px;
+            text-align: left;
+        }
+
+        .bar {
+            height: 10px;
+            background: #333;
+            border-radius: 5px;
+            margin-top: 5px;
+        }
+
+        .fill {
+            height: 10px;
+            background: #00e676;
+            border-radius: 5px;
+        }
+
+        .loader {
+            display: none;
+            margin-top: 15px;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="card">
+    <h2>🌿 Plant AI Detector</h2>
+
+    <form id="form" action="/predict" method="post" enctype="multipart/form-data">
+        <input type="file" id="fileInput" name="file" accept="image/*" capture="camera">
+        <br><br>
+        <button type="submit">Analyze</button>
+    </form>
+
+    <div class="loader" id="loader">🔍 Analyzing image...</div>
+
+    <img id="preview">
+
+    {% if result %}
+    <div class="result">
+        <p><strong>Disease:</strong> {{ result }}</p>
+
+        <p><strong>Confidence:</strong> {{ confidence }}%</p>
+        <div class="bar">
+            <div class="fill" style="width: {{ confidence }}%"></div>
+        </div>
+
+        <p><strong>Description:</strong> {{ description }}</p>
+
+        <p><strong>Remedy:</strong> {{ remedy }}</p>
+    </div>
+    {% endif %}
+</div>
+
+<script>
+    const fileInput = document.getElementById('fileInput');
+    const preview = document.getElementById('preview');
+    const form = document.getElementById('form');
+    const loader = document.getElementById('loader');
+
+    fileInput.onchange = () => {
+        const file = fileInput.files[0];
+        if (file) {
+            preview.src = URL.createObjectURL(file);
+            preview.style.display = "block";
+        }
+    };
+
+    form.onsubmit = () => {
+        loader.style.display = "block";
+    };
+</script>
+
+</body>
+</html>
