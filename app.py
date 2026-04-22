@@ -67,8 +67,9 @@ def predict():
     )
 
 # IMPORTANT for deployment
+# IMPORTANT for deployment
 if __name__ == "__main__":
-    # Render provides a PORT environment variable. We must use it.
     import os
+    # Render assigns a port dynamically. If it can't find one, it defaults to 10000.
     port = int(os.environ.get("PORT", 10000))
     app.run(host="0.0.0.0", port=port)
