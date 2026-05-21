@@ -15,7 +15,10 @@ model = None
 def load_model_once():
     global model
     if model is None:
-        model = tf.keras.models.load_model("plant_disease_model.h5")
+        model = tf.keras.models.load_model(
+    "plant_model.keras",
+    compile=False
+)
 
 try:
     load_model_once()
