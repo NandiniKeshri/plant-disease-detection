@@ -1,30 +1,66 @@
 from flask import Flask, render_template, request
 import numpy as np
-import cv2
-import tensorflow as tf
 import os
 import gc
+from PIL import Image
+from pathlib import Path
 
 app = Flask(__name__)
+app.config["MAX_CONTENT_LENGTH"] = 8 * 1024 * 1024
 
 # ----------------------------
-# LOAD MODEL ONLY ONCE (IMPORTANT FOR RENDER)
+# LOAD MODEL LAZILY (IMPORTANT FOR RENDER)
 # ----------------------------
 model = None
+interpreter = None
+input_details = None
+output_details = None
+MODEL_DIR = Path(__file__).resolve().parent
+TFLITE_MODEL_PATH = MODEL_DIR / "model.tflite"
+KERAS_MODEL_PATH = MODEL_DIR / "plant_model.keras"
 
-def load_model_once():
+def load_tflite_once():
+    global interpreter, input_details, output_details
+    if interpreter is None:
+        try:
+            from tflite_runtime.interpreter import Interpreter
+        except ImportError:
+            import tensorflow as tf
+            Interpreter = tf.lite.Interpreter
+
+        if not TFLITE_MODEL_PATH.exists():
+            raise FileNotFoundError(f"Missing model file: {TFLITE_MODEL_PATH.name}")
+
+        interpreter = Interpreter(model_path=str(TFLITE_MODEL_PATH))
+        interpreter.allocate_tensors()
+        input_details = interpreter.get_input_details()
+        output_details = interpreter.get_output_details()
+        print("TFLite model loaded successfully")
+
+
+def load_keras_once():
     global model
     if model is None:
-        model = tf.keras.models.load_model(
-            "plant_model.keras",
-            compile=False
-        )
+        import tensorflow as tf
 
-try:
-    load_model_once()
-    print("Model loaded successfully")
-except Exception as e:
-    print("Error loading model:", e)
+        if not KERAS_MODEL_PATH.exists():
+            raise FileNotFoundError(f"Missing model file: {KERAS_MODEL_PATH.name}")
+
+        model = tf.keras.models.load_model(str(KERAS_MODEL_PATH), compile=False)
+        print("Keras model loaded successfully")
+
+
+def predict_with_model(img):
+    try:
+        load_tflite_once()
+        input_data = img.astype(input_details[0]["dtype"])
+        interpreter.set_tensor(input_details[0]["index"], input_data)
+        interpreter.invoke()
+        return interpreter.get_tensor(output_details[0]["index"])
+    except Exception as tflite_error:
+        print("TFLite prediction failed:", tflite_error)
+        load_keras_once()
+        return model.predict(img)
 
 # ----------------------------
 # CLASS NAMES (DO NOT USE os.listdir ON SERVER)
@@ -97,14 +133,13 @@ def home():
     return render_template('index.html')
 
 
+@app.route('/health')
+def health():
+    return {"status": "ok"}
+
+
 @app.route('/predict', methods=['POST'])
 def predict():
-    if model is None:
-        return render_template(
-            'index.html',
-            error="Model could not be loaded. Please check that plant_model.keras is present."
-        ), 500
-
     file = request.files.get('file')
 
     if not file:
@@ -113,23 +148,29 @@ def predict():
     if file.filename == '':
         return render_template('index.html', error="No image selected")
 
-    # Read image safely
-    img = np.frombuffer(file.read(), np.uint8)
-    img = cv2.imdecode(img, cv2.IMREAD_COLOR)
-
-    if img is None:
+    try:
+        image = Image.open(file.stream).convert("RGB")
+    except Exception:
         return render_template(
             'index.html',
             error="Invalid image file. Please upload a clear JPG or PNG leaf photo."
         )
 
     # Preprocess
-    img = cv2.resize(img, (128, 128))
-    img = img / 255.0
+    image = image.resize((128, 128))
+    img = np.asarray(image, dtype=np.float32) / 255.0
     img = np.expand_dims(img, axis=0)
 
     # Prediction
-    prediction = model.predict(img)
+    try:
+        prediction = predict_with_model(img)
+    except Exception as e:
+        print("Prediction failed:", e)
+        return render_template(
+            'index.html',
+            error="Server could not load the ML model. Please check Render logs and model files."
+        ), 500
+
     class_index = np.argmax(prediction)
     confidence = float(np.max(prediction)) * 100
 
