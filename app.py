@@ -10,7 +10,18 @@ app = Flask(__name__)
 # ----------------------------
 # LOAD MODEL ONLY ONCE (IMPORTANT FOR RENDER)
 # ----------------------------
-model = tf.keras.models.load_model("plant_disease_model.h5")
+model = None
+
+def load_model_once():
+    global model
+    if model is None:
+        model = tf.keras.models.load_model("plant_disease_model.h5")
+
+try:
+    load_model_once()
+    print("Model loaded successfully")
+except Exception as e:
+    print("Error loading model:", e)
 
 # ----------------------------
 # CLASS NAMES (DO NOT USE os.listdir ON SERVER)
