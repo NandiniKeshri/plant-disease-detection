@@ -3,16 +3,29 @@ import numpy as np
 import cv2
 import tensorflow as tf
 import os
+import gc
 
 app = Flask(__name__)
 
-# Load model safely
+# ----------------------------
+# LOAD MODEL ONLY ONCE (IMPORTANT FOR RENDER)
+# ----------------------------
 model = tf.keras.models.load_model("plant_disease_model.h5")
 
-# Load class names safely
-class_names = sorted(os.listdir("dataset"))
+# ----------------------------
+# CLASS NAMES (DO NOT USE os.listdir ON SERVER)
+# ----------------------------
+class_names = [
+    "Tomato___Early_blight",
+    "Tomato___Late_blight",
+    "Potato___Early_blight",
+    "Potato___Late_blight",
+    "Pepper__bell__Bacterial_spot"
+]
 
-# 🌿 Descriptions
+# ----------------------------
+# DESCRIPTIONS
+# ----------------------------
 descriptions = {
     "Tomato___Early_blight": "Fungal disease causing dark spots with concentric rings.",
     "Tomato___Late_blight": "Serious disease causing rapid decay of leaves and fruit.",
@@ -21,7 +34,9 @@ descriptions = {
     "Pepper__bell__Bacterial_spot": "Causes water-soaked spots that turn brown."
 }
 
-# 💊 Remedies
+# ----------------------------
+# REMEDIES
+# ----------------------------
 remedies = {
     "Tomato___Early_blight": "Use fungicide and remove infected leaves.",
     "Tomato___Late_blight": "Apply copper fungicide and avoid moisture.",
@@ -30,9 +45,13 @@ remedies = {
     "Pepper__bell__Bacterial_spot": "Use disease-free seeds and copper sprays."
 }
 
+# ----------------------------
+# ROUTES
+# ----------------------------
 @app.route('/')
 def home():
     return render_template('index.html')
+
 
 @app.route('/predict', methods=['POST'])
 def predict():
@@ -41,35 +60,47 @@ def predict():
     if file.filename == '':
         return render_template('index.html', error="No image selected")
 
-    # Read image
-    img = cv2.imdecode(np.frombuffer(file.read(), np.uint8), cv2.IMREAD_COLOR)
+    # Read image safely
+    img = np.frombuffer(file.read(), np.uint8)
+    img = cv2.imdecode(img, cv2.IMREAD_COLOR)
 
     # Preprocess
-    img = cv2.resize(img, (128, 128)) / 255.0
-    img = np.reshape(img, (1, 128, 128, 3))
+    img = cv2.resize(img, (128, 128))
+    img = img / 255.0
+    img = np.expand_dims(img, axis=0)
 
     # Prediction
     prediction = model.predict(img)
     class_index = np.argmax(prediction)
-    confidence = round(float(np.max(prediction)) * 100, 2)
+    confidence = float(np.max(prediction)) * 100
 
     result = class_names[class_index]
 
-    description = descriptions.get(result, "General plant disease affecting leaf health.")
-    remedy = remedies.get(result, "Maintain hygiene and monitor plant regularly.")
+    description = descriptions.get(
+        result,
+        "General plant disease affecting leaf health."
+    )
+
+    remedy = remedies.get(
+        result,
+        "Maintain plant hygiene and monitor regularly."
+    )
+
+    # Cleanup memory (important for Render)
+    gc.collect()
 
     return render_template(
         'index.html',
         result=result,
-        confidence=confidence,
+        confidence=round(confidence, 2),
         description=description,
         remedy=remedy
     )
 
-# IMPORTANT for deployment
-# IMPORTANT for deployment
+
+# ----------------------------
+# RUN (FOR LOCAL ONLY)
+# ----------------------------
 if __name__ == "__main__":
-    import os
-    # Render assigns a port dynamically. If it can't find one, it defaults to 10000.
     port = int(os.environ.get("PORT", 10000))
-    app.run(host="0.0.0.0", port=port)
+    app.run(host="0.0.0.0", port=port, debug=False)
