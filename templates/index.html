@@ -60,6 +60,12 @@
             margin-bottom: 20px;
         }
 
+        .top-actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
         .brand {
             display: flex;
             align-items: center;
@@ -105,6 +111,18 @@
             display: block;
             color: var(--green-2);
             font-size: 18px;
+        }
+
+        .language-select {
+            min-height: 48px;
+            padding: 0 14px;
+            border: 1px solid var(--border);
+            border-radius: 999px;
+            color: var(--green-2);
+            background: rgba(255, 255, 255, 0.88);
+            box-shadow: 0 10px 30px rgba(28, 67, 42, 0.08);
+            font-weight: 800;
+            outline: none;
         }
 
         .hero-grid,
@@ -697,9 +715,18 @@
                 display: grid;
             }
 
+            .top-actions {
+                display: grid;
+            }
+
             .live-pill {
                 min-width: 0;
                 text-align: left;
+            }
+
+            .language-select {
+                width: 100%;
+                border-radius: 16px;
             }
 
             .mini-stats,
@@ -734,35 +761,46 @@
                 <div class="brand-mark">AI</div>
                 <div>
                     <h1>AgriVision AI</h1>
-                    <p>Plant disease detection and crop-care intelligence</p>
+                    <p data-i18n="subtitle">Plant disease detection and crop-care intelligence</p>
                 </div>
             </div>
-            <div class="live-pill">
-                <strong id="clock">--:--</strong>
-                <span class="label" id="date">Loading local time</span>
+            <div class="top-actions">
+                <select class="language-select" id="languageSelect" aria-label="Select language">
+                    <option value="en">English</option>
+                    <option value="hi">Hindi</option>
+                    <option value="pa">Punjabi</option>
+                    <option value="te">Telugu</option>
+                    <option value="ta">Tamil</option>
+                    <option value="kn">Kannada</option>
+                    <option value="mr">Marathi</option>
+                </select>
+                <div class="live-pill">
+                    <strong id="clock">--:--</strong>
+                    <span class="label" id="date" data-i18n="loadingTime">Loading local time</span>
+                </div>
             </div>
         </header>
 
         <section class="hero-grid">
             <div class="hero-card">
-                <span class="hero-kicker">AI agriculture dashboard</span>
-                <h2>Detect plant disease, understand risk, and act faster.</h2>
-                <p class="muted">
+                <span class="hero-kicker" data-i18n="heroKicker">AI agriculture dashboard</span>
+                <h2 data-i18n="heroTitle">Detect plant disease, understand risk, and act faster.</h2>
+                <p class="muted" data-i18n="heroText">
                     Upload a clear leaf image to get a prediction, confidence score, weather-based risk,
                     disease guidance, and a practical care plan in one clean workspace.
                 </p>
                 <div class="mini-stats">
                     <div class="stat">
                         <strong>15</strong>
-                        <span>Supported classes</span>
+                        <span data-i18n="supportedClasses">Supported classes</span>
                     </div>
                     <div class="stat">
-                        <strong>Live</strong>
-                        <span>Weather risk</span>
+                        <strong data-i18n="live">Live</strong>
+                        <span data-i18n="weatherRisk">Weather risk</span>
                     </div>
                     <div class="stat">
                         <strong>7 Day</strong>
-                        <span>Care workflow</span>
+                        <span data-i18n="careWorkflow">Care workflow</span>
                     </div>
                 </div>
             </div>
@@ -770,10 +808,10 @@
             <aside class="card insight-card">
                 <div>
                     <div class="card-head">
-                        <h3>Scan Quality</h3>
-                        <span class="badge">Ready</span>
+                        <h3 data-i18n="scanQuality">Scan Quality</h3>
+                        <span class="badge" data-i18n="ready">Ready</span>
                     </div>
-                    <p class="muted">
+                    <p class="muted" data-i18n="scanQualityText">
                         Use a bright, close-up image with one leaf centered. Avoid heavy blur,
                         shadows, and mixed backgrounds for better confidence.
                     </p>
@@ -782,8 +820,8 @@
                     <div class="progress-pin"></div>
                 </div>
                 <div class="scale">
-                    <span>Low clarity</span>
-                    <span>Best scan</span>
+                    <span data-i18n="lowClarity">Low clarity</span>
+                    <span data-i18n="bestScan">Best scan</span>
                 </div>
             </aside>
         </section>
@@ -791,42 +829,42 @@
         <section class="dashboard-grid" style="margin-top: 18px;">
             <section class="card span-5">
                 <div class="card-head">
-                    <h3>Leaf Image Upload</h3>
-                    <span class="badge">Drag and drop</span>
+                    <h3 data-i18n="uploadTitle">Leaf Image Upload</h3>
+                    <span class="badge" data-i18n="dragDrop">Drag and drop</span>
                 </div>
 
                 <form class="upload-form" id="form" action="/predict" method="post" enctype="multipart/form-data">
                     <label class="drop-zone" id="dropZone" for="fileInput">
                         <div>
                             <div class="upload-icon">UP</div>
-                            <strong>Drop a leaf image here</strong>
-                            <p class="muted">or browse from your device. JPG and PNG are supported.</p>
+                            <strong data-i18n="dropImage">Drop a leaf image here</strong>
+                            <p class="muted" data-i18n="browseText">or browse from your device. JPG and PNG are supported.</p>
                         </div>
                     </label>
 
                     <input class="file-input" type="file" id="fileInput" name="file" accept="image/*" capture="environment">
 
                     <div class="upload-actions">
-                        <label class="ghost-btn" for="fileInput" id="changeBtn">Choose Image</label>
-                        <label class="ghost-btn" for="fileInput">Camera Capture</label>
+                        <label class="ghost-btn" for="fileInput" id="changeBtn" data-i18n="chooseImage">Choose Image</label>
+                        <label class="ghost-btn" for="fileInput" data-i18n="cameraCapture">Camera Capture</label>
                     </div>
 
                     <div class="preview-wrap" id="previewWrap">
                         <img class="preview" id="preview" alt="Selected plant leaf preview">
                         <div class="preview-meta">
                             <div>
-                                <strong id="fileName">Selected image</strong>
-                                <span class="label" id="fileSize">Ready for analysis</span>
+                                <strong id="fileName" data-i18n="selectedImage">Selected image</strong>
+                                <span class="label" id="fileSize" data-i18n="readyAnalysis">Ready for analysis</span>
                             </div>
-                            <label class="ghost-btn" for="fileInput">Change Image</label>
+                            <label class="ghost-btn" for="fileInput" data-i18n="changeImage">Change Image</label>
                         </div>
                     </div>
 
-                    <button class="btn" type="submit">Analyze Plant Health</button>
+                    <button class="btn" type="submit" data-i18n="analyze">Analyze Plant Health</button>
 
                     <div class="loader" id="loader">
                         <div class="spinner"></div>
-                        Running AI leaf analysis...
+                        <span data-i18n="runningAnalysis">Running AI leaf analysis...</span>
                     </div>
 
                     {% if error %}
@@ -837,13 +875,13 @@
 
             <section class="card span-7 result-card">
                 <div class="card-head">
-                    <h3>Prediction Result</h3>
+                    <h3 data-i18n="predictionResult">Prediction Result</h3>
                     {% if result %}
                     <span class="badge {{ 'neutral' if 'healthy' in result|lower else 'danger' }}">
                         {{ "Healthy" if "healthy" in result|lower else "Diseased" }}
                     </span>
                     {% else %}
-                    <span class="badge neutral">Waiting</span>
+                    <span class="badge neutral" data-i18n="waiting">Waiting</span>
                     {% endif %}
                 </div>
 
@@ -853,7 +891,7 @@
                         <div class="gauge-inner">
                             <div>
                                 <strong>{{ confidence }}%</strong>
-                                <span>Confidence</span>
+                                <span data-i18n="confidence">Confidence</span>
                             </div>
                         </div>
                     </div>
@@ -868,7 +906,7 @@
                             <span>Medium</span>
                             <span>High</span>
                         </div>
-                        <p class="muted" style="margin-top: 14px;">
+                        <p class="muted" style="margin-top: 14px;" data-i18n="modelInsight">
                             Model insight: the uploaded image closely matches visual patterns learned from
                             the training dataset. Use the care plan below as a first response.
                         </p>
@@ -877,8 +915,8 @@
                 {% else %}
                 <div class="empty-state">
                     <div>
-                        <strong>No prediction yet</strong>
-                        <p class="muted">Upload and analyze a leaf image to see disease name, confidence, and model insight.</p>
+                        <strong data-i18n="noPrediction">No prediction yet</strong>
+                        <p class="muted" data-i18n="noPredictionText">Upload and analyze a leaf image to see disease name, confidence, and model insight.</p>
                     </div>
                 </div>
                 {% endif %}
@@ -886,67 +924,67 @@
 
             <section class="card span-4">
                 <div class="card-head">
-                    <h3>Disease Risk</h3>
-                    <span class="badge" id="weatherStatus">Auto</span>
+                    <h3 data-i18n="diseaseRisk">Disease Risk</h3>
+                    <span class="badge" id="weatherStatus" data-i18n="auto">Auto</span>
                 </div>
                 <div class="risk-grid">
                     <div class="risk-tile">
                         <strong id="temp">--</strong>
-                        <span class="label">Temperature</span>
+                        <span class="label" data-i18n="temperature">Temperature</span>
                     </div>
                     <div class="risk-tile">
                         <strong id="humidity">--</strong>
-                        <span class="label">Humidity</span>
+                        <span class="label" data-i18n="humidity">Humidity</span>
                     </div>
                     <div class="risk-tile">
                         <strong id="rain">--</strong>
-                        <span class="label">Rain chance</span>
+                        <span class="label" data-i18n="rainChance">Rain chance</span>
                     </div>
                     <div class="risk-tile">
                         <strong id="riskLevel">--</strong>
-                        <span class="label">Risk level</span>
+                        <span class="label" data-i18n="riskLevelLabel">Risk level</span>
                     </div>
                 </div>
                 <div class="risk-level" id="weatherAdvice">
-                    Allow location access to calculate local crop disease risk.
+                    <span data-i18n="locationRisk">Allow location access to calculate local crop disease risk.</span>
                 </div>
             </section>
 
             <section class="card span-8">
                 <div class="card-head">
-                    <h3>Causes, Prevention and Treatment</h3>
+                    <h3 data-i18n="guidanceTitle">Causes, Prevention and Treatment</h3>
                     <span class="badge">{{ "Available" if result else "After scan" }}</span>
                 </div>
 
                 <div class="tabs" role="tablist" aria-label="Disease guidance tabs">
-                    <button class="tab-btn active" type="button" data-tab="causes">Causes</button>
-                    <button class="tab-btn" type="button" data-tab="prevention">Prevention</button>
-                    <button class="tab-btn" type="button" data-tab="treatment">Treatment</button>
+                    <button class="tab-btn active" type="button" data-tab="causes" data-i18n="causes">Causes</button>
+                    <button class="tab-btn" type="button" data-tab="prevention" data-i18n="prevention">Prevention</button>
+                    <button class="tab-btn" type="button" data-tab="treatment" data-i18n="treatment">Treatment</button>
                 </div>
 
                 <div class="tab-panel active" id="causes">
                     {% if result %}
                     <ul class="clean-list">
-                        <li>High humidity and long leaf wetness can encourage fungal or bacterial growth.</li>
-                        <li>Poor airflow keeps leaves damp and helps disease spread between plants.</li>
-                        <li>Contaminated soil, tools, seeds, or plant debris can carry pathogens.</li>
-                        <li>Weak plants under nutrient, water, or pest stress become more vulnerable.</li>
+                        <li data-i18n="cause1">High humidity and long leaf wetness can encourage fungal or bacterial growth.</li>
+                        <li data-i18n="cause2">Poor airflow keeps leaves damp and helps disease spread between plants.</li>
+                        <li data-i18n="cause3">Contaminated soil, tools, seeds, or plant debris can carry pathogens.</li>
+                        <li data-i18n="cause4">Weak plants under nutrient, water, or pest stress become more vulnerable.</li>
                     </ul>
                     {% else %}
-                    <div class="empty-state">Disease causes will appear after the first prediction.</div>
+                    <div class="empty-state" data-i18n="causesEmpty">Disease causes will appear after the first prediction.</div>
                     {% endif %}
                 </div>
 
                 <div class="tab-panel" id="prevention">
                     {% if result %}
                     <ul class="clean-list">
-                        <li>Water near the soil line and avoid wetting leaves late in the day.</li>
-                        <li>Remove infected leaves early and dispose of them away from healthy plants.</li>
-                        <li>Use clean tools, disease-free seeds, and resistant varieties when available.</li>
-                        <li>Rotate crops and keep enough spacing for sunlight and airflow.</li>
+                        <li data-i18n="prevention1">Water near the soil line and avoid wetting leaves late in the day.</li>
+                        <li data-i18n="prevention2">Remove infected leaves early and dispose of them away from healthy plants.</li>
+                        <li data-i18n="prevention3">Use clean tools, disease-free seeds, and resistant varieties when available.</li>
+                        <li data-i18n="prevention4">Rotate crops and keep enough spacing for sunlight and airflow.</li>
                     </ul>
                     {% else %}
-                    <div class="empty-state">Prevention guidance will appear after image analysis.</div>
+                    <div class="empty-state" data-i18n="preventionEmpty">Prevention guidance will appear after image analysis.</div>
                     {% endif %}
                 </div>
 
@@ -954,19 +992,19 @@
                     {% if result %}
                     <ul class="clean-list">
                         <li>{{ remedy }}</li>
-                        <li>Confirm symptoms by checking both top and bottom leaf surfaces.</li>
-                        <li>Apply treatment early and follow product directions for dosage and timing.</li>
-                        <li>Monitor nearby plants for similar spots, yellowing, curling, or wilting.</li>
+                        <li data-i18n="treatment1">Confirm symptoms by checking both top and bottom leaf surfaces.</li>
+                        <li data-i18n="treatment2">Apply treatment early and follow product directions for dosage and timing.</li>
+                        <li data-i18n="treatment3">Monitor nearby plants for similar spots, yellowing, curling, or wilting.</li>
                     </ul>
                     {% else %}
-                    <div class="empty-state">Treatment steps will appear after the model returns a result.</div>
+                    <div class="empty-state" data-i18n="treatmentEmpty">Treatment steps will appear after the model returns a result.</div>
                     {% endif %}
                 </div>
             </section>
 
             <section class="card span-12">
                 <div class="card-head">
-                    <h3>7-Day Care Plan</h3>
+                    <h3 data-i18n="carePlan">7-Day Care Plan</h3>
                     <span class="badge">{{ "Next actions" if result else "After scan" }}</span>
                 </div>
 
@@ -977,43 +1015,43 @@
                             <div class="step-icon">D1</div>
                             <input type="checkbox" aria-label="Mark day 1 complete">
                         </div>
-                        <strong>Inspect and isolate</strong>
-                        <p class="muted">Remove heavily affected leaves and keep the plant away from healthy crops if possible.</p>
+                        <strong data-i18n="day1Title">Inspect and isolate</strong>
+                        <p class="muted" data-i18n="day1Text">Remove heavily affected leaves and keep the plant away from healthy crops if possible.</p>
                     </article>
                     <article class="care-step">
                         <div class="step-top">
                             <div class="step-icon">D2</div>
                             <input type="checkbox" aria-label="Mark day 2 complete">
                         </div>
-                        <strong>Improve environment</strong>
-                        <p class="muted">Increase spacing, airflow, and keep leaves dry during watering.</p>
+                        <strong data-i18n="day2Title">Improve environment</strong>
+                        <p class="muted" data-i18n="day2Text">Increase spacing, airflow, and keep leaves dry during watering.</p>
                     </article>
                     <article class="care-step">
                         <div class="step-top">
                             <div class="step-icon">D4</div>
                             <input type="checkbox" aria-label="Mark day 4 complete">
                         </div>
-                        <strong>Apply care</strong>
-                        <p class="muted">Use the recommended treatment and clean tools after each plant.</p>
+                        <strong data-i18n="day4Title">Apply care</strong>
+                        <p class="muted" data-i18n="day4Text">Use the recommended treatment and clean tools after each plant.</p>
                     </article>
                     <article class="care-step">
                         <div class="step-top">
                             <div class="step-icon">D7</div>
                             <input type="checkbox" aria-label="Mark day 7 complete">
                         </div>
-                        <strong>Review progress</strong>
-                        <p class="muted">Scan again and compare symptom spread, leaf color, and plant strength.</p>
+                        <strong data-i18n="day7Title">Review progress</strong>
+                        <p class="muted" data-i18n="day7Text">Scan again and compare symptom spread, leaf color, and plant strength.</p>
                     </article>
                 </div>
                 {% else %}
-                <div class="empty-state">
+                <div class="empty-state" data-i18n="careEmpty">
                     Your step-by-step crop care timeline will be generated after prediction.
                 </div>
                 {% endif %}
             </section>
         </section>
 
-        <footer class="footer">Built for AI-assisted crop health monitoring.</footer>
+        <footer class="footer" data-i18n="footer">Built for AI-assisted crop health monitoring.</footer>
     </main>
 
     <script>
@@ -1033,9 +1071,342 @@
         const rain = document.getElementById("rain");
         const riskLevel = document.getElementById("riskLevel");
         const weatherAdvice = document.getElementById("weatherAdvice");
+        const languageSelect = document.getElementById("languageSelect");
+
+        const translations = {
+            en: {
+                subtitle: "Plant disease detection and crop-care intelligence",
+                loadingTime: "Loading local time",
+                heroKicker: "AI agriculture dashboard",
+                heroTitle: "Detect plant disease, understand risk, and act faster.",
+                heroText: "Upload a clear leaf image to get a prediction, confidence score, weather-based risk, disease guidance, and a practical care plan in one clean workspace.",
+                supportedClasses: "Supported classes",
+                live: "Live",
+                weatherRisk: "Weather risk",
+                careWorkflow: "Care workflow",
+                scanQuality: "Scan Quality",
+                ready: "Ready",
+                scanQualityText: "Use a bright, close-up image with one leaf centered. Avoid heavy blur, shadows, and mixed backgrounds for better confidence.",
+                lowClarity: "Low clarity",
+                bestScan: "Best scan",
+                uploadTitle: "Leaf Image Upload",
+                dragDrop: "Drag and drop",
+                dropImage: "Drop a leaf image here",
+                browseText: "or browse from your device. JPG and PNG are supported.",
+                chooseImage: "Choose Image",
+                cameraCapture: "Camera Capture",
+                selectedImage: "Selected image",
+                readyAnalysis: "Ready for analysis",
+                changeImage: "Change Image",
+                analyze: "Analyze Plant Health",
+                runningAnalysis: "Running AI leaf analysis...",
+                predictionResult: "Prediction Result",
+                waiting: "Waiting",
+                confidence: "Confidence",
+                modelInsight: "Model insight: the uploaded image closely matches visual patterns learned from the training dataset. Use the care plan below as a first response.",
+                noPrediction: "No prediction yet",
+                noPredictionText: "Upload and analyze a leaf image to see disease name, confidence, and model insight.",
+                diseaseRisk: "Disease Risk",
+                temperature: "Temperature",
+                humidity: "Humidity",
+                rainChance: "Rain chance",
+                riskLevelLabel: "Risk level",
+                locationRisk: "Allow location access to calculate local crop disease risk.",
+                guidanceTitle: "Causes, Prevention and Treatment",
+                causes: "Causes",
+                prevention: "Prevention",
+                treatment: "Treatment",
+                cause1: "High humidity and long leaf wetness can encourage fungal or bacterial growth.",
+                cause2: "Poor airflow keeps leaves damp and helps disease spread between plants.",
+                cause3: "Contaminated soil, tools, seeds, or plant debris can carry pathogens.",
+                cause4: "Weak plants under nutrient, water, or pest stress become more vulnerable.",
+                causesEmpty: "Disease causes will appear after the first prediction.",
+                prevention1: "Water near the soil line and avoid wetting leaves late in the day.",
+                prevention2: "Remove infected leaves early and dispose of them away from healthy plants.",
+                prevention3: "Use clean tools, disease-free seeds, and resistant varieties when available.",
+                prevention4: "Rotate crops and keep enough spacing for sunlight and airflow.",
+                preventionEmpty: "Prevention guidance will appear after image analysis.",
+                treatment1: "Confirm symptoms by checking both top and bottom leaf surfaces.",
+                treatment2: "Apply treatment early and follow product directions for dosage and timing.",
+                treatment3: "Monitor nearby plants for similar spots, yellowing, curling, or wilting.",
+                treatmentEmpty: "Treatment steps will appear after the model returns a result.",
+                carePlan: "7-Day Care Plan",
+                day1Title: "Inspect and isolate",
+                day1Text: "Remove heavily affected leaves and keep the plant away from healthy crops if possible.",
+                day2Title: "Improve environment",
+                day2Text: "Increase spacing, airflow, and keep leaves dry during watering.",
+                day4Title: "Apply care",
+                day4Text: "Use the recommended treatment and clean tools after each plant.",
+                day7Title: "Review progress",
+                day7Text: "Scan again and compare symptom spread, leaf color, and plant strength.",
+                careEmpty: "Your step-by-step crop care timeline will be generated after prediction.",
+                footer: "Built for AI-assisted crop health monitoring.",
+                highRisk: "High",
+                mediumRisk: "Medium",
+                lowRisk: "Low",
+                highRiskAdvice: "High risk today. Avoid overhead watering and inspect leaves closely.",
+                mediumRiskAdvice: "Moderate risk. Keep plants dry and maintain airflow.",
+                lowRiskAdvice: "Low risk. Continue routine crop monitoring.",
+                offline: "Offline",
+                defaultStatus: "Default",
+                auto: "Auto"
+            },
+            hi: {
+                subtitle: "पौध रोग पहचान और फसल देखभाल बुद्धिमत्ता",
+                loadingTime: "स्थानीय समय लोड हो रहा है",
+                heroKicker: "एआई कृषि डैशबोर्ड",
+                heroTitle: "पौध रोग पहचानें, जोखिम समझें, और तेजी से कार्रवाई करें।",
+                heroText: "स्पष्ट पत्ती की तस्वीर अपलोड करें और भविष्यवाणी, विश्वास स्कोर, मौसम आधारित जोखिम, रोग मार्गदर्शन और देखभाल योजना पाएं।",
+                supportedClasses: "समर्थित वर्ग",
+                live: "लाइव",
+                weatherRisk: "मौसम जोखिम",
+                careWorkflow: "देखभाल कार्यप्रवाह",
+                scanQuality: "स्कैन गुणवत्ता",
+                ready: "तैयार",
+                scanQualityText: "एक पत्ती को बीच में रखकर उजली और नजदीकी फोटो लें। धुंध, छाया और जटिल पृष्ठभूमि से बचें।",
+                lowClarity: "कम स्पष्टता",
+                bestScan: "श्रेष्ठ स्कैन",
+                uploadTitle: "पत्ती छवि अपलोड",
+                dragDrop: "ड्रैग और ड्रॉप",
+                dropImage: "पत्ती की छवि यहां छोड़ें",
+                browseText: "या डिवाइस से चुनें। JPG और PNG समर्थित हैं।",
+                chooseImage: "छवि चुनें",
+                cameraCapture: "कैमरा कैप्चर",
+                selectedImage: "चुनी गई छवि",
+                readyAnalysis: "विश्लेषण के लिए तैयार",
+                changeImage: "छवि बदलें",
+                analyze: "पौध स्वास्थ्य जांचें",
+                runningAnalysis: "एआई पत्ती विश्लेषण चल रहा है...",
+                predictionResult: "भविष्यवाणी परिणाम",
+                waiting: "प्रतीक्षा",
+                confidence: "विश्वास",
+                modelInsight: "मॉडल संकेत: अपलोड की गई छवि प्रशिक्षण डेटा के पैटर्न से मेल खाती है। नीचे की देखभाल योजना को पहले कदम के रूप में उपयोग करें।",
+                noPrediction: "अभी कोई परिणाम नहीं",
+                noPredictionText: "रोग नाम, विश्वास और मॉडल संकेत देखने के लिए पत्ती की छवि अपलोड करें।",
+                diseaseRisk: "रोग जोखिम",
+                temperature: "तापमान",
+                humidity: "नमी",
+                rainChance: "बारिश संभावना",
+                riskLevelLabel: "जोखिम स्तर",
+                locationRisk: "स्थानीय फसल रोग जोखिम के लिए लोकेशन अनुमति दें।",
+                guidanceTitle: "कारण, रोकथाम और उपचार",
+                causes: "कारण",
+                prevention: "रोकथाम",
+                treatment: "उपचार",
+                cause1: "अधिक नमी और लंबे समय तक गीली पत्तियां फंगल या बैक्टीरियल वृद्धि बढ़ाती हैं।",
+                cause2: "कम हवा का प्रवाह पत्तियों को नम रखता है और रोग फैलाता है।",
+                cause3: "दूषित मिट्टी, औजार, बीज या पौध अवशेष रोग फैला सकते हैं।",
+                cause4: "पोषण, पानी या कीट तनाव वाले कमजोर पौधे अधिक प्रभावित होते हैं।",
+                causesEmpty: "पहली भविष्यवाणी के बाद रोग कारण दिखेंगे।",
+                prevention1: "मिट्टी के पास पानी दें और शाम को पत्तियां गीली करने से बचें।",
+                prevention2: "संक्रमित पत्तियां जल्दी हटाएं और स्वस्थ पौधों से दूर रखें।",
+                prevention3: "स्वच्छ औजार, रोग-मुक्त बीज और प्रतिरोधी किस्में उपयोग करें।",
+                prevention4: "फसल चक्र अपनाएं और हवा व धूप के लिए दूरी रखें।",
+                preventionEmpty: "छवि विश्लेषण के बाद रोकथाम मार्गदर्शन दिखेगा।",
+                treatment1: "पत्ती के ऊपर और नीचे दोनों सतहों पर लक्षण जांचें।",
+                treatment2: "उपचार जल्दी करें और उत्पाद निर्देशों का पालन करें।",
+                treatment3: "आसपास के पौधों में धब्बे, पीलापन, मुड़ना या मुरझाना देखें।",
+                treatmentEmpty: "मॉडल परिणाम के बाद उपचार चरण दिखेंगे।",
+                carePlan: "7-दिन देखभाल योजना",
+                day1Title: "जांचें और अलग करें",
+                day1Text: "अधिक प्रभावित पत्तियां हटाएं और संभव हो तो पौधे को अलग रखें।",
+                day2Title: "वातावरण सुधारें",
+                day2Text: "दूरी, हवा का प्रवाह बढ़ाएं और पानी देते समय पत्तियां सूखी रखें।",
+                day4Title: "देखभाल लागू करें",
+                day4Text: "सुझाया उपचार करें और हर पौधे के बाद औजार साफ करें।",
+                day7Title: "प्रगति देखें",
+                day7Text: "दोबारा स्कैन करें और लक्षण, पत्ती रंग और पौध शक्ति की तुलना करें।",
+                careEmpty: "भविष्यवाणी के बाद चरण-दर-चरण देखभाल समयरेखा बनेगी।",
+                footer: "एआई-सहायता फसल स्वास्थ्य निगरानी के लिए निर्मित।",
+                highRisk: "उच्च",
+                mediumRisk: "मध्यम",
+                lowRisk: "कम",
+                highRiskAdvice: "आज जोखिम अधिक है। ऊपर से पानी देने से बचें और पत्तियां जांचें।",
+                mediumRiskAdvice: "मध्यम जोखिम। पौधों को सूखा रखें और हवा का प्रवाह बनाए रखें।",
+                lowRiskAdvice: "कम जोखिम। नियमित निगरानी जारी रखें।",
+                offline: "ऑफलाइन",
+                defaultStatus: "डिफॉल्ट",
+                auto: "ऑटो"
+            },
+            pa: {
+                subtitle: "ਪੌਧੇ ਦੀ ਬਿਮਾਰੀ ਪਛਾਣ ਅਤੇ ਫਸਲ ਦੇਖਭਾਲ ਇੰਟੈਲੀਜੈਂਸ",
+                loadingTime: "ਸਥਾਨਕ ਸਮਾਂ ਲੋਡ ਹੋ ਰਿਹਾ ਹੈ",
+                heroKicker: "ਏਆਈ ਖੇਤੀ ਡੈਸ਼ਬੋਰਡ",
+                heroTitle: "ਪੌਧੇ ਦੀ ਬਿਮਾਰੀ ਪਛਾਣੋ, ਜੋਖਮ ਸਮਝੋ ਅਤੇ ਤੇਜ਼ ਕਾਰਵਾਈ ਕਰੋ।",
+                heroText: "ਸਾਫ ਪੱਤੇ ਦੀ ਤਸਵੀਰ ਅਪਲੋਡ ਕਰੋ ਅਤੇ ਭਵਿੱਖਬਾਣੀ, ਭਰੋਸਾ ਸਕੋਰ, ਮੌਸਮੀ ਜੋਖਮ ਅਤੇ ਦੇਖਭਾਲ ਯੋਜਨਾ ਪ੍ਰਾਪਤ ਕਰੋ।",
+                uploadTitle: "ਪੱਤਾ ਚਿੱਤਰ ਅਪਲੋਡ",
+                dropImage: "ਪੱਤੇ ਦੀ ਤਸਵੀਰ ਇੱਥੇ ਛੱਡੋ",
+                browseText: "ਜਾਂ ਆਪਣੇ ਡਿਵਾਈਸ ਤੋਂ ਚੁਣੋ। JPG ਅਤੇ PNG ਸਮਰਥਿਤ ਹਨ।",
+                chooseImage: "ਚਿੱਤਰ ਚੁਣੋ",
+                cameraCapture: "ਕੈਮਰਾ ਕੈਪਚਰ",
+                analyze: "ਪੌਧਾ ਸਿਹਤ ਵਿਸ਼ਲੇਸ਼ਣ",
+                predictionResult: "ਭਵਿੱਖਬਾਣੀ ਨਤੀਜਾ",
+                confidence: "ਭਰੋਸਾ",
+                diseaseRisk: "ਬਿਮਾਰੀ ਜੋਖਮ",
+                temperature: "ਤਾਪਮਾਨ",
+                humidity: "ਨਮੀ",
+                rainChance: "ਮੀਂਹ ਸੰਭਾਵਨਾ",
+                guidanceTitle: "ਕਾਰਣ, ਰੋਕਥਾਮ ਅਤੇ ਇਲਾਜ",
+                causes: "ਕਾਰਣ",
+                prevention: "ਰੋਕਥਾਮ",
+                treatment: "ਇਲਾਜ",
+                carePlan: "7-ਦਿਨ ਦੇਖਭਾਲ ਯੋਜਨਾ",
+                highRisk: "ਉੱਚ",
+                mediumRisk: "ਦਰਮਿਆਨਾ",
+                lowRisk: "ਘੱਟ",
+                highRiskAdvice: "ਅੱਜ ਜੋਖਮ ਉੱਚ ਹੈ। ਉੱਪਰੋਂ ਪਾਣੀ ਨਾ ਦਿਓ ਅਤੇ ਪੱਤਿਆਂ ਦੀ ਜਾਂਚ ਕਰੋ।",
+                mediumRiskAdvice: "ਦਰਮਿਆਨਾ ਜੋਖਮ। ਪੌਧਿਆਂ ਨੂੰ ਸੁੱਕਾ ਰੱਖੋ ਅਤੇ ਹਵਾ ਦਿਓ।",
+                lowRiskAdvice: "ਘੱਟ ਜੋਖਮ। ਨਿਯਮਿਤ ਨਿਗਰਾਨੀ ਜਾਰੀ ਰੱਖੋ।"
+            },
+            te: {
+                subtitle: "మొక్కల వ్యాధి గుర్తింపు మరియు పంట సంరక్షణ ఇంటెలిజెన్స్",
+                heroKicker: "ఏఐ వ్యవసాయ డ్యాష్‌బోర్డ్",
+                heroTitle: "మొక్కల వ్యాధిని గుర్తించండి, ప్రమాదాన్ని అర్థం చేసుకోండి, త్వరగా చర్య తీసుకోండి.",
+                heroText: "స్పష్టమైన ఆకు ఫోటోను అప్లోడ్ చేసి అంచనా, నమ్మక స్కోరు, వాతావరణ ప్రమాదం మరియు సంరక్షణ ప్రణాళిక పొందండి.",
+                uploadTitle: "ఆకు చిత్రం అప్లోడ్",
+                dropImage: "ఆకు చిత్రాన్ని ఇక్కడ వదలండి",
+                chooseImage: "చిత్రం ఎంచుకోండి",
+                cameraCapture: "కెమెరా క్యాప్చర్",
+                analyze: "మొక్క ఆరోగ్యాన్ని విశ్లేషించండి",
+                predictionResult: "అంచనా ఫలితం",
+                confidence: "నమ్మకం",
+                diseaseRisk: "వ్యాధి ప్రమాదం",
+                temperature: "ఉష్ణోగ్రత",
+                humidity: "తేమ",
+                rainChance: "వర్షం అవకాశం",
+                guidanceTitle: "కారణాలు, నివారణ మరియు చికిత్స",
+                causes: "కారణాలు",
+                prevention: "నివారణ",
+                treatment: "చికిత్స",
+                carePlan: "7 రోజుల సంరక్షణ ప్రణాళిక",
+                highRisk: "అధిక",
+                mediumRisk: "మధ్యస్థ",
+                lowRisk: "తక్కువ",
+                highRiskAdvice: "ఈరోజు ప్రమాదం ఎక్కువ. పై నుంచి నీరు పోయవద్దు మరియు ఆకులను పరిశీలించండి.",
+                mediumRiskAdvice: "మధ్యస్థ ప్రమాదం. మొక్కలను పొడిగా ఉంచి గాలి ప్రసరణ ఉంచండి.",
+                lowRiskAdvice: "తక్కువ ప్రమాదం. సాధారణ పర్యవేక్షణ కొనసాగించండి."
+            },
+            ta: {
+                subtitle: "தாவர நோய் கண்டறிதல் மற்றும் பயிர் பராமரிப்பு நுண்ணறிவு",
+                heroKicker: "ஏஐ விவசாய டாஷ்போர்டு",
+                heroTitle: "தாவர நோயை கண்டறிந்து, அபாயத்தை புரிந்து, விரைவாக செயல்படுங்கள்.",
+                heroText: "தெளிவான இலை படத்தை பதிவேற்றி கணிப்பு, நம்பிக்கை மதிப்பு, வானிலை அபாயம் மற்றும் பராமரிப்பு திட்டத்தைப் பெறுங்கள்.",
+                uploadTitle: "இலை படம் பதிவேற்றம்",
+                dropImage: "இலை படத்தை இங்கே விடுங்கள்",
+                chooseImage: "படம் தேர்வு",
+                cameraCapture: "கேமரா பிடிப்பு",
+                analyze: "தாவர ஆரோக்கியம் பகுப்பாய்வு",
+                predictionResult: "கணிப்பு முடிவு",
+                confidence: "நம்பிக்கை",
+                diseaseRisk: "நோய் அபாயம்",
+                temperature: "வெப்பநிலை",
+                humidity: "ஈரப்பதம்",
+                rainChance: "மழை வாய்ப்பு",
+                guidanceTitle: "காரணங்கள், தடுப்பு மற்றும் சிகிச்சை",
+                causes: "காரணங்கள்",
+                prevention: "தடுப்பு",
+                treatment: "சிகிச்சை",
+                carePlan: "7 நாள் பராமரிப்பு திட்டம்",
+                highRisk: "அதிகம்",
+                mediumRisk: "மிதமான",
+                lowRisk: "குறைவு",
+                highRiskAdvice: "இன்று அபாயம் அதிகம். மேலிருந்து நீர் ஊற்ற வேண்டாம், இலைகளைச் சரிபார்க்கவும்.",
+                mediumRiskAdvice: "மிதமான அபாயம். தாவரங்களை உலர வைத்துக் காற்றோட்டம் கொடுக்கவும்.",
+                lowRiskAdvice: "குறைந்த அபாயம். வழக்கமான கண்காணிப்பை தொடரவும்."
+            },
+            kn: {
+                subtitle: "ಸಸ್ಯ ರೋಗ ಪತ್ತೆ ಮತ್ತು ಬೆಳೆ ಆರೈಕೆ ಬುದ್ಧಿಮತ್ತೆ",
+                heroKicker: "ಎಐ ಕೃಷಿ ಡ್ಯಾಶ್‌ಬೋರ್ಡ್",
+                heroTitle: "ಸಸ್ಯ ರೋಗ ಪತ್ತೆ ಮಾಡಿ, ಅಪಾಯ ಅರಿತು, ಬೇಗ ಕ್ರಮ ಕೈಗೊಳ್ಳಿ.",
+                heroText: "ಸ್ಪಷ್ಟ ಎಲೆ ಚಿತ್ರವನ್ನು ಅಪ್ಲೋಡ್ ಮಾಡಿ ಊಹೆ, ವಿಶ್ವಾಸ ಅಂಕ, ಹವಾಮಾನ ಅಪಾಯ ಮತ್ತು ಆರೈಕೆ ಯೋಜನೆ ಪಡೆಯಿರಿ.",
+                uploadTitle: "ಎಲೆ ಚಿತ್ರ ಅಪ್ಲೋಡ್",
+                dropImage: "ಎಲೆ ಚಿತ್ರವನ್ನು ಇಲ್ಲಿ ಬಿಡಿ",
+                chooseImage: "ಚಿತ್ರ ಆಯ್ಕೆ",
+                cameraCapture: "ಕ್ಯಾಮೆರಾ ಕ್ಯಾಪ್ಚರ್",
+                analyze: "ಸಸ್ಯ ಆರೋಗ್ಯ ವಿಶ್ಲೇಷಿಸಿ",
+                predictionResult: "ಊಹೆ ಫಲಿತಾಂಶ",
+                confidence: "ವಿಶ್ವಾಸ",
+                diseaseRisk: "ರೋಗ ಅಪಾಯ",
+                temperature: "ತಾಪಮಾನ",
+                humidity: "ಆರ್ದ್ರತೆ",
+                rainChance: "ಮಳೆ ಸಾಧ್ಯತೆ",
+                guidanceTitle: "ಕಾರಣಗಳು, ತಡೆಗಟ್ಟುವಿಕೆ ಮತ್ತು ಚಿಕಿತ್ಸೆ",
+                causes: "ಕಾರಣಗಳು",
+                prevention: "ತಡೆಗಟ್ಟುವಿಕೆ",
+                treatment: "ಚಿಕಿತ್ಸೆ",
+                carePlan: "7 ದಿನದ ಆರೈಕೆ ಯೋಜನೆ",
+                highRisk: "ಹೆಚ್ಚು",
+                mediumRisk: "ಮಧ್ಯಮ",
+                lowRisk: "ಕಡಿಮೆ",
+                highRiskAdvice: "ಇಂದು ಅಪಾಯ ಹೆಚ್ಚು. ಮೇಲಿನಿಂದ ನೀರು ಹಾಕಬೇಡಿ ಮತ್ತು ಎಲೆಗಳನ್ನು ಪರಿಶೀಲಿಸಿ.",
+                mediumRiskAdvice: "ಮಧ್ಯಮ ಅಪಾಯ. ಸಸ್ಯಗಳನ್ನು ಒಣವಾಗಿಡಿ ಮತ್ತು ಗಾಳಿ ಹರಿಯಲಿ.",
+                lowRiskAdvice: "ಕಡಿಮೆ ಅಪಾಯ. ನಿಯಮಿತ ಪರಿಶೀಲನೆ ಮುಂದುವರಿಸಿ."
+            },
+            mr: {
+                subtitle: "वनस्पती रोग ओळख आणि पीक काळजी बुद्धिमत्ता",
+                heroKicker: "एआय कृषी डॅशबोर्ड",
+                heroTitle: "वनस्पती रोग ओळखा, धोका समजा आणि जलद कृती करा.",
+                heroText: "स्पष्ट पानाचे छायाचित्र अपलोड करून अंदाज, विश्वास गुण, हवामान धोका आणि काळजी योजना मिळवा.",
+                uploadTitle: "पान प्रतिमा अपलोड",
+                dropImage: "पानाची प्रतिमा येथे सोडा",
+                chooseImage: "प्रतिमा निवडा",
+                cameraCapture: "कॅमेरा कॅप्चर",
+                analyze: "वनस्पती आरोग्य विश्लेषण",
+                predictionResult: "अंदाज परिणाम",
+                confidence: "विश्वास",
+                diseaseRisk: "रोग धोका",
+                temperature: "तापमान",
+                humidity: "आर्द्रता",
+                rainChance: "पावसाची शक्यता",
+                guidanceTitle: "कारणे, प्रतिबंध आणि उपचार",
+                causes: "कारणे",
+                prevention: "प्रतिबंध",
+                treatment: "उपचार",
+                carePlan: "7 दिवस काळजी योजना",
+                highRisk: "उच्च",
+                mediumRisk: "मध्यम",
+                lowRisk: "कमी",
+                highRiskAdvice: "आज धोका जास्त आहे. वरून पाणी देऊ नका आणि पाने तपासा.",
+                mediumRiskAdvice: "मध्यम धोका. झाडे कोरडी ठेवा आणि हवा खेळती ठेवा.",
+                lowRiskAdvice: "कमी धोका. नियमित निरीक्षण सुरू ठेवा."
+            }
+        };
+
+        const localeMap = {
+            en: "en-IN",
+            hi: "hi-IN",
+            pa: "pa-IN",
+            te: "te-IN",
+            ta: "ta-IN",
+            kn: "kn-IN",
+            mr: "mr-IN"
+        };
+
+        let currentLanguage = localStorage.getItem("agriVisionLanguage") || "en";
+
+        function t(key) {
+            return (translations[currentLanguage] && translations[currentLanguage][key])
+                || translations.en[key]
+                || key;
+        }
+
+        function applyLanguage(language) {
+            currentLanguage = language;
+            localStorage.setItem("agriVisionLanguage", language);
+            document.documentElement.lang = language;
+            document.querySelectorAll("[data-i18n]").forEach(element => {
+                element.textContent = t(element.dataset.i18n);
+            });
+            updateClock();
+            if (riskLevel.textContent && riskLevel.textContent !== "--") {
+                const humidityValue = Number((humidity.textContent || "0").replace("%", "")) || 65;
+                const rainValue = Number((rain.textContent || "0").replace("%", "")) || 20;
+                setRisk(humidityValue, rainValue);
+            }
+        }
 
         function formatBytes(bytes) {
-            if (!bytes) return "Ready for analysis";
+            if (!bytes) return t("readyAnalysis");
             const mb = bytes / (1024 * 1024);
             return `${mb.toFixed(2)} MB selected`;
         }
@@ -1091,12 +1462,13 @@
 
         function updateClock() {
             const now = new Date();
-            clock.textContent = now.toLocaleTimeString([], {
+            const locale = localeMap[currentLanguage] || "en-IN";
+            clock.textContent = now.toLocaleTimeString(locale, {
                 hour: "2-digit",
                 minute: "2-digit",
                 second: "2-digit"
             });
-            dateBox.textContent = now.toLocaleDateString([], {
+            dateBox.textContent = now.toLocaleDateString(locale, {
                 weekday: "long",
                 year: "numeric",
                 month: "long",
@@ -1108,17 +1480,17 @@
             const highRisk = humidityValue >= 78 || rainValue >= 55;
             const mediumRisk = humidityValue >= 62 || rainValue >= 30;
             if (highRisk) {
-                riskLevel.textContent = "High";
-                weatherAdvice.textContent = "High risk today. Avoid overhead watering and inspect leaves closely.";
+                riskLevel.textContent = t("highRisk");
+                weatherAdvice.textContent = t("highRiskAdvice");
                 return;
             }
             if (mediumRisk) {
-                riskLevel.textContent = "Medium";
-                weatherAdvice.textContent = "Moderate risk. Keep plants dry and maintain airflow.";
+                riskLevel.textContent = t("mediumRisk");
+                weatherAdvice.textContent = t("mediumRiskAdvice");
                 return;
             }
-            riskLevel.textContent = "Low";
-            weatherAdvice.textContent = "Low risk. Continue routine crop monitoring.";
+            riskLevel.textContent = t("lowRisk");
+            weatherAdvice.textContent = t("lowRiskAdvice");
         }
 
         function loadWeather(latitude, longitude) {
@@ -1137,11 +1509,11 @@
                     temp.textContent = `${Math.round(current.temperature_2m || 0)} deg C`;
                     humidity.textContent = `${humidityValue}%`;
                     rain.textContent = `${rainValue}%`;
-                    weatherStatus.textContent = "Live";
+                    weatherStatus.textContent = t("live");
                     setRisk(humidityValue, rainValue);
                 })
                 .catch(() => {
-                    weatherStatus.textContent = "Offline";
+                    weatherStatus.textContent = t("offline");
                     temp.textContent = "28 deg C";
                     humidity.textContent = "65%";
                     rain.textContent = "20%";
@@ -1152,11 +1524,16 @@
         updateClock();
         setInterval(updateClock, 1000);
 
+        languageSelect.value = currentLanguage;
+        languageSelect.addEventListener("change", () => {
+            applyLanguage(languageSelect.value);
+        });
+
         if ("geolocation" in navigator) {
             navigator.geolocation.getCurrentPosition(
                 position => loadWeather(position.coords.latitude, position.coords.longitude),
                 () => {
-                    weatherStatus.textContent = "Default";
+                    weatherStatus.textContent = t("defaultStatus");
                     temp.textContent = "28 deg C";
                     humidity.textContent = "65%";
                     rain.textContent = "20%";
@@ -1164,12 +1541,14 @@
                 }
             );
         } else {
-            weatherStatus.textContent = "Default";
+            weatherStatus.textContent = t("defaultStatus");
             temp.textContent = "28 deg C";
             humidity.textContent = "65%";
             rain.textContent = "20%";
             setRisk(65, 20);
         }
+
+        applyLanguage(currentLanguage);
     </script>
 </body>
 </html>
