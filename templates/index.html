@@ -1,187 +1,839 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Plant AI Detector</title>
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plant Disease Detection Dashboard</title>
 
     <style>
+        :root {
+            --bg: #f4f7f2;
+            --panel: #ffffff;
+            --panel-soft: #f8fbf6;
+            --text: #203028;
+            --muted: #68756d;
+            --green: #1f8a4c;
+            --green-dark: #146538;
+            --lime: #b7df73;
+            --amber: #f2b84b;
+            --red: #d95c52;
+            --blue: #4d91c6;
+            --border: #dfe8dc;
+            --shadow: 0 16px 40px rgba(31, 54, 40, 0.12);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
         body {
             margin: 0;
-            font-family: 'Segoe UI', sans-serif;
-            background: url('https://images.unsplash.com/photo-1501004318641-b39e6451bec6') no-repeat center center/cover;
             min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            font-family: "Segoe UI", Arial, sans-serif;
+            color: var(--text);
+            background:
+                linear-gradient(135deg, rgba(31, 138, 76, 0.12), transparent 34%),
+                linear-gradient(315deg, rgba(77, 145, 198, 0.12), transparent 32%),
+                var(--bg);
         }
 
-        .container {
-            width: 90%;
-            max-width: 500px;
+        .page {
+            width: min(1180px, calc(100% - 32px));
+            margin: 0 auto;
+            padding: 28px 0 36px;
         }
 
-        .card {
-            background: rgba(0,0,0,0.6);
-            backdrop-filter: blur(10px);
-            border-radius: 15px;
-            padding: 25px;
-            color: white;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+        .hero {
+            display: grid;
+            grid-template-columns: 1.2fr 0.8fr;
+            gap: 18px;
+            align-items: stretch;
+            margin-bottom: 18px;
+        }
+
+        .hero-main,
+        .box {
+            background: rgba(255, 255, 255, 0.9);
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow);
+            border-radius: 8px;
+        }
+
+        .hero-main {
+            padding: 28px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .hero-main::after {
+            content: "";
+            position: absolute;
+            right: -60px;
+            bottom: -90px;
+            width: 260px;
+            height: 260px;
+            background: radial-gradient(circle, rgba(183, 223, 115, 0.35), transparent 68%);
+            pointer-events: none;
+        }
+
+        .eyebrow {
+            margin: 0 0 10px;
+            color: var(--green-dark);
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
         }
 
         h1 {
+            margin: 0;
+            max-width: 720px;
+            font-size: clamp(32px, 5vw, 58px);
+            line-height: 1.02;
+            letter-spacing: 0;
+        }
+
+        .hero-text {
+            margin: 16px 0 0;
+            max-width: 680px;
+            color: var(--muted);
+            font-size: 17px;
+            line-height: 1.6;
+        }
+
+        .hero-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-top: 22px;
+            max-width: 680px;
+        }
+
+        .stat {
+            padding: 14px;
+            background: var(--panel-soft);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+        }
+
+        .stat strong {
+            display: block;
+            font-size: 24px;
+            color: var(--green-dark);
+        }
+
+        .stat span {
+            display: block;
+            margin-top: 3px;
+            color: var(--muted);
+            font-size: 13px;
+        }
+
+        .time-box {
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            gap: 20px;
+        }
+
+        .clock {
+            font-size: 42px;
+            font-weight: 800;
+            color: var(--green-dark);
+        }
+
+        .date {
+            color: var(--muted);
+            margin-top: 4px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: 18px;
+        }
+
+        .box {
+            padding: 20px;
+        }
+
+        .span-4 {
+            grid-column: span 4;
+        }
+
+        .span-5 {
+            grid-column: span 5;
+        }
+
+        .span-6 {
+            grid-column: span 6;
+        }
+
+        .span-7 {
+            grid-column: span 7;
+        }
+
+        .span-12 {
+            grid-column: span 12;
+        }
+
+        .box-head {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        h2 {
+            margin: 0;
+            font-size: 20px;
+        }
+
+        .tag {
+            display: inline-flex;
+            align-items: center;
+            min-height: 28px;
+            padding: 5px 10px;
+            border-radius: 999px;
+            background: #eaf5e9;
+            color: var(--green-dark);
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .upload-zone {
+            display: grid;
+            place-items: center;
+            min-height: 220px;
+            padding: 24px;
+            border: 2px dashed #a9c8ab;
+            border-radius: 8px;
+            background: #f7fbf5;
             text-align: center;
-            margin-bottom: 15px;
         }
 
         input[type="file"] {
             width: 100%;
-            margin: 10px 0;
+            max-width: 360px;
+            margin: 16px auto 0;
+            color: var(--muted);
         }
 
-        button {
+        .btn {
             width: 100%;
-            padding: 12px;
-            background: #00c853;
-            border: none;
+            border: 0;
             border-radius: 8px;
+            padding: 13px 16px;
+            margin-top: 16px;
             color: white;
+            background: linear-gradient(135deg, var(--green), var(--green-dark));
             font-size: 16px;
+            font-weight: 700;
             cursor: pointer;
+            box-shadow: 0 10px 22px rgba(31, 138, 76, 0.25);
         }
 
-        button:hover {
-            background: #00e676;
+        .btn:hover {
+            filter: brightness(1.05);
         }
 
-        img {
+        .preview {
             width: 100%;
-            margin-top: 10px;
-            border-radius: 10px;
+            max-height: 330px;
+            object-fit: cover;
             display: none;
+            margin-top: 16px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
         }
 
         .loader {
             display: none;
-            text-align: center;
-            margin-top: 10px;
+            margin-top: 14px;
+            color: var(--green-dark);
+            font-weight: 700;
         }
 
         .spinner {
-            border: 4px solid rgba(255,255,255,0.2);
-            border-top: 4px solid #00e676;
+            width: 34px;
+            height: 34px;
+            margin: 0 auto 8px;
+            border: 4px solid #dbead7;
+            border-top-color: var(--green);
             border-radius: 50%;
-            width: 40px;
-            height: 40px;
             animation: spin 1s linear infinite;
-            margin: auto;
         }
 
         @keyframes spin {
-            100% { transform: rotate(360deg); }
+            to { transform: rotate(360deg); }
         }
 
-        .result {
-            margin-top: 15px;
-            background: rgba(255,255,255,0.1);
-            padding: 15px;
-            border-radius: 10px;
+        .result-title {
+            font-size: 26px;
+            font-weight: 800;
+            color: var(--green-dark);
+            word-break: break-word;
+        }
+
+        .muted {
+            color: var(--muted);
+            line-height: 1.6;
+        }
+
+        .confidence-wrap {
+            display: grid;
+            grid-template-columns: 150px 1fr;
+            gap: 18px;
+            align-items: center;
+        }
+
+        .donut {
+            width: 150px;
+            aspect-ratio: 1;
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+            background: conic-gradient(var(--green) var(--score), #e5ece4 0);
+        }
+
+        .donut-inner {
+            width: 108px;
+            aspect-ratio: 1;
+            display: grid;
+            place-items: center;
+            border-radius: 50%;
+            background: white;
+            font-size: 28px;
+            font-weight: 800;
+            color: var(--green-dark);
         }
 
         .bar {
-            height: 10px;
-            background: #444;
-            border-radius: 5px;
-            margin-top: 5px;
+            height: 12px;
+            overflow: hidden;
+            background: #e8eee6;
+            border-radius: 999px;
         }
 
         .fill {
+            height: 100%;
+            border-radius: inherit;
+            background: linear-gradient(90deg, var(--red), var(--amber), var(--green));
+        }
+
+        .list {
+            display: grid;
+            gap: 10px;
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        .list li {
+            padding: 12px 12px 12px 38px;
+            position: relative;
+            background: var(--panel-soft);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: #35443a;
+            line-height: 1.45;
+        }
+
+        .list li::before {
+            content: "";
+            position: absolute;
+            left: 14px;
+            top: 17px;
+            width: 10px;
             height: 10px;
-            border-radius: 5px;
+            border-radius: 50%;
+            background: var(--green);
+        }
+
+        .weather-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+        }
+
+        .weather-card {
+            min-height: 86px;
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            background: #f8fbff;
+        }
+
+        .weather-card strong {
+            display: block;
+            font-size: 22px;
+            color: var(--blue);
+        }
+
+        .weather-card span {
+            display: block;
+            margin-top: 5px;
+            color: var(--muted);
+            font-size: 13px;
+        }
+
+        .mini-chart {
+            height: 190px;
+            display: flex;
+            align-items: end;
+            gap: 12px;
+            padding: 16px 12px 8px;
+            border-radius: 8px;
+            background: var(--panel-soft);
+            border: 1px solid var(--border);
+        }
+
+        .chart-col {
+            flex: 1;
+            display: grid;
+            gap: 8px;
+            align-items: end;
+            text-align: center;
+            color: var(--muted);
+            font-size: 12px;
+        }
+
+        .chart-bar {
+            width: 100%;
+            min-height: 12px;
+            border-radius: 8px 8px 3px 3px;
+            background: linear-gradient(180deg, var(--green), var(--lime));
+        }
+
+        .timeline {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+        }
+
+        .step {
+            padding: 14px;
+            border-radius: 8px;
+            background: #fffaf0;
+            border: 1px solid #f0dfbd;
+        }
+
+        .step strong {
+            display: block;
+            color: #94620e;
+            margin-bottom: 6px;
         }
 
         .error {
-            color: #ff5252;
-            margin-top: 10px;
+            margin-top: 12px;
+            padding: 12px;
+            border-radius: 8px;
+            background: #fff1ef;
+            border: 1px solid #ffc9c2;
+            color: #a4362c;
             text-align: center;
+            font-weight: 700;
+        }
+
+        .empty-state {
+            min-height: 190px;
+            display: grid;
+            place-items: center;
+            text-align: center;
+            color: var(--muted);
+            border-radius: 8px;
+            background: var(--panel-soft);
+            border: 1px solid var(--border);
+            padding: 22px;
         }
 
         .footer {
+            margin-top: 18px;
+            color: var(--muted);
             text-align: center;
-            margin-top: 15px;
-            font-size: 12px;
-            opacity: 0.7;
+            font-size: 13px;
+        }
+
+        @media (max-width: 900px) {
+            .hero,
+            .grid,
+            .timeline {
+                grid-template-columns: 1fr;
+            }
+
+            .span-4,
+            .span-5,
+            .span-6,
+            .span-7,
+            .span-12 {
+                grid-column: auto;
+            }
+
+            .hero-stats,
+            .weather-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .confidence-wrap {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 520px) {
+            .page {
+                width: min(100% - 20px, 1180px);
+                padding-top: 12px;
+            }
+
+            .hero-main,
+            .box,
+            .time-box {
+                padding: 16px;
+            }
+
+            .clock {
+                font-size: 34px;
+            }
         }
     </style>
 </head>
 
 <body>
+    <main class="page">
+        <section class="hero">
+            <div class="hero-main">
+                <p class="eyebrow">Smart crop health assistant</p>
+                <h1>Plant Disease Detection Dashboard</h1>
+                <p class="hero-text">
+                    Upload a leaf photo to detect disease, view confidence, understand possible causes,
+                    and get practical prevention and care guidance in one place.
+                </p>
 
-<div class="container">
-    <div class="card">
-        <h1>🌿 Plant AI Detector</h1>
-
-        <form id="form" action="/predict" method="post" enctype="multipart/form-data">
-            <input type="file" id="fileInput" name="file" accept="image/*" capture="camera">
-            <button type="submit">Analyze</button>
-        </form>
-
-        <div class="loader" id="loader">
-            <div class="spinner"></div>
-            <p>Analyzing image...</p>
-        </div>
-
-        <img id="preview">
-
-        {% if result %}
-        <div class="result">
-            <p><b>Disease:</b> {{ result }}</p>
-
-            <p><b>Confidence:</b> {{ confidence }}%</p>
-            <div class="bar">
-                <div class="fill"
-                style="width: {{ confidence }}%;
-                background: {{ 'green' if confidence|float > 80 else 'orange' if confidence|float > 50 else 'red' }}">
+                <div class="hero-stats">
+                    <div class="stat">
+                        <strong>AI</strong>
+                        <span>Leaf image analysis</span>
+                    </div>
+                    <div class="stat">
+                        <strong>Live</strong>
+                        <span>Time and weather panel</span>
+                    </div>
+                    <div class="stat">
+                        <strong>Care</strong>
+                        <span>Prevention tips</span>
+                    </div>
                 </div>
             </div>
 
-            <p><b>Description:</b> {{ description }}</p>
-            <p><b>Remedy:</b> {{ remedy }}</p>
+            <aside class="box time-box">
+                <div>
+                    <div class="box-head">
+                        <h2>Real Time</h2>
+                        <span class="tag">Live</span>
+                    </div>
+                    <div class="clock" id="clock">--:--</div>
+                    <div class="date" id="date">Loading date...</div>
+                </div>
+                <p class="muted">
+                    Best scans use a clear, well-lit leaf photo with the diseased area visible.
+                </p>
+            </aside>
+        </section>
 
-            <form action="/" method="get">
-                <button style="margin-top:10px;">🔄 New Scan</button>
-            </form>
-        </div>
-        {% endif %}
+        <section class="grid">
+            <div class="box span-5">
+                <div class="box-head">
+                    <h2>Upload Leaf Image</h2>
+                    <span class="tag">Camera ready</span>
+                </div>
 
-        {% if error %}
-        <div class="error">{{ error }}</div>
-        {% endif %}
+                <form id="form" action="/predict" method="post" enctype="multipart/form-data">
+                    <label class="upload-zone" for="fileInput">
+                        <div>
+                            <strong>Choose or capture a plant leaf photo</strong>
+                            <p class="muted">JPG, PNG, or camera image supported.</p>
+                            <input type="file" id="fileInput" name="file" accept="image/*" capture="camera">
+                        </div>
+                    </label>
+                    <button class="btn" type="submit">Analyze Plant</button>
+                </form>
+
+                <div class="loader" id="loader">
+                    <div class="spinner"></div>
+                    Analyzing image...
+                </div>
+
+                <img class="preview" id="preview" alt="Selected plant preview">
+
+                {% if error %}
+                <div class="error">{{ error }}</div>
+                {% endif %}
+            </div>
+
+            <div class="box span-7">
+                <div class="box-head">
+                    <h2>Prediction Result</h2>
+                    <span class="tag">{{ "Detected" if result else "Waiting" }}</span>
+                </div>
+
+                {% if result %}
+                <div class="result-title">{{ result }}</div>
+                <p class="muted">{{ description }}</p>
+
+                <div class="confidence-wrap">
+                    <div class="donut" style="--score: {{ confidence }}%;">
+                        <div class="donut-inner">{{ confidence }}%</div>
+                    </div>
+                    <div>
+                        <h2>Confidence Score</h2>
+                        <p class="muted">
+                            Higher confidence means the uploaded image closely matches patterns learned by the model.
+                        </p>
+                        <div class="bar">
+                            <div class="fill" style="width: {{ confidence }}%;"></div>
+                        </div>
+                    </div>
+                </div>
+                {% else %}
+                <div class="empty-state">
+                    Upload a leaf image to see the detected disease, confidence graph, causes, and care plan.
+                </div>
+                {% endif %}
+            </div>
+
+            <div class="box span-4">
+                <div class="box-head">
+                    <h2>Weather Prediction</h2>
+                    <span class="tag" id="weatherStatus">Auto</span>
+                </div>
+                <div class="weather-grid">
+                    <div class="weather-card">
+                        <strong id="temp">--</strong>
+                        <span>Temperature</span>
+                    </div>
+                    <div class="weather-card">
+                        <strong id="humidity">--</strong>
+                        <span>Humidity</span>
+                    </div>
+                    <div class="weather-card">
+                        <strong id="rain">--</strong>
+                        <span>Rain chance</span>
+                    </div>
+                </div>
+                <p class="muted" id="weatherAdvice">
+                    Allow location access to load local weather and crop disease risk.
+                </p>
+            </div>
+
+            <div class="box span-4">
+                <div class="box-head">
+                    <h2>Disease Causes</h2>
+                    <span class="tag">{{ "Why it happens" if result else "After scan" }}</span>
+                </div>
+                {% if result %}
+                <ul class="list">
+                    <li>High humidity and long leaf wetness encourage fungal growth.</li>
+                    <li>Poor air circulation can keep leaves damp for many hours.</li>
+                    <li>Infected soil, seeds, tools, or plant debris can spread pathogens.</li>
+                    <li>Weak plants from nutrient stress are more vulnerable to disease.</li>
+                </ul>
+                {% else %}
+                <div class="empty-state">
+                    Disease causes will appear here after you upload and analyze a leaf image.
+                </div>
+                {% endif %}
+            </div>
+
+            <div class="box span-4">
+                <div class="box-head">
+                    <h2>Prevention</h2>
+                    <span class="tag">{{ "Protect crop" if result else "After scan" }}</span>
+                </div>
+                {% if result %}
+                <ul class="list">
+                    <li>Water at soil level instead of wetting leaves.</li>
+                    <li>Remove infected leaves and keep the field clean.</li>
+                    <li>Use disease-free seeds and resistant varieties when possible.</li>
+                    <li>Rotate crops and avoid planting the same crop repeatedly.</li>
+                </ul>
+                {% else %}
+                <div class="empty-state">
+                    Prevention tips will be shown after the model detects the plant condition.
+                </div>
+                {% endif %}
+            </div>
+
+            <div class="box span-6">
+                <div class="box-head">
+                    <h2>Confidence Graph</h2>
+                    <span class="tag">{{ "Visual score" if result else "Waiting" }}</span>
+                </div>
+                {% if result %}
+                <div class="mini-chart">
+                    <div class="chart-col">
+                        <div class="chart-bar" style="height: 35%;"></div>
+                        Low
+                    </div>
+                    <div class="chart-col">
+                        <div class="chart-bar" style="height: 62%;"></div>
+                        Medium
+                    </div>
+                    <div class="chart-col">
+                        <div class="chart-bar" style="height: {{ confidence if confidence else 82 }}%;"></div>
+                        Scan
+                    </div>
+                    <div class="chart-col">
+                        <div class="chart-bar" style="height: 88%;"></div>
+                        Ideal
+                    </div>
+                </div>
+                {% else %}
+                <div class="empty-state">
+                    The confidence graph will be generated after image analysis.
+                </div>
+                {% endif %}
+            </div>
+
+            <div class="box span-6">
+                <div class="box-head">
+                    <h2>Treatment</h2>
+                    <span class="tag">{{ "Recommended" if result else "After scan" }}</span>
+                </div>
+                {% if result %}
+                <p class="muted">{{ remedy }}</p>
+                <ul class="list">
+                    <li>Confirm symptoms by checking both top and bottom leaf surfaces.</li>
+                    <li>Apply treatment early and repeat only as product directions allow.</li>
+                    <li>Monitor nearby plants for similar spots, yellowing, or wilting.</li>
+                </ul>
+                {% else %}
+                <div class="empty-state">
+                    A recommended treatment will appear here after the image is uploaded and analyzed.
+                </div>
+                {% endif %}
+            </div>
+
+            <div class="box span-12">
+                <div class="box-head">
+                    <h2>7 Day Care Plan</h2>
+                    <span class="tag">{{ "Next actions" if result else "After scan" }}</span>
+                </div>
+                {% if result %}
+                <div class="timeline">
+                    <div class="step">
+                        <strong>Day 1</strong>
+                        Remove heavily infected leaves and keep the plant separate if possible.
+                    </div>
+                    <div class="step">
+                        <strong>Day 2-3</strong>
+                        Improve airflow, reduce leaf moisture, and clean tools after pruning.
+                    </div>
+                    <div class="step">
+                        <strong>Day 4-5</strong>
+                        Use suitable organic or chemical control based on the detected disease.
+                    </div>
+                    <div class="step">
+                        <strong>Day 6-7</strong>
+                        Scan again, compare symptoms, and continue prevention if the plant improves.
+                    </div>
+                </div>
+                {% else %}
+                <div class="empty-state">
+                    Your day-by-day care plan will appear after the disease prediction is complete.
+                </div>
+                {% endif %}
+            </div>
+        </section>
 
         <div class="footer">
-            Built with ❤️ using Machine Learning
+            Built with Flask and Machine Learning for smarter plant care.
         </div>
-    </div>
-</div>
+    </main>
 
-<script>
-    const fileInput = document.getElementById('fileInput');
-    const preview = document.getElementById('preview');
-    const form = document.getElementById('form');
-    const loader = document.getElementById('loader');
+    <script>
+        const fileInput = document.getElementById("fileInput");
+        const preview = document.getElementById("preview");
+        const form = document.getElementById("form");
+        const loader = document.getElementById("loader");
+        const clock = document.getElementById("clock");
+        const dateBox = document.getElementById("date");
+        const weatherStatus = document.getElementById("weatherStatus");
+        const temp = document.getElementById("temp");
+        const humidity = document.getElementById("humidity");
+        const rain = document.getElementById("rain");
+        const weatherAdvice = document.getElementById("weatherAdvice");
 
-    fileInput.onchange = () => {
-        const file = fileInput.files[0];
-        if (file) {
-            preview.src = URL.createObjectURL(file);
-            preview.style.display = "block";
+        fileInput.addEventListener("change", () => {
+            const file = fileInput.files[0];
+            if (file) {
+                preview.src = URL.createObjectURL(file);
+                preview.style.display = "block";
+            }
+        });
+
+        form.addEventListener("submit", () => {
+            loader.style.display = "block";
+        });
+
+        function updateClock() {
+            const now = new Date();
+            clock.textContent = now.toLocaleTimeString([], {
+                hour: "2-digit",
+                minute: "2-digit",
+                second: "2-digit"
+            });
+            dateBox.textContent = now.toLocaleDateString([], {
+                weekday: "long",
+                year: "numeric",
+                month: "long",
+                day: "numeric"
+            });
         }
-    };
 
-    form.onsubmit = () => {
-        loader.style.display = "block";
-    };
-</script>
+        updateClock();
+        setInterval(updateClock, 1000);
 
+        function loadWeather(latitude, longitude) {
+            const url = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=temperature_2m,relative_humidity_2m,precipitation&hourly=precipitation_probability&forecast_days=1`;
+
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    const current = data.current || {};
+                    const probability = data.hourly && data.hourly.precipitation_probability
+                        ? data.hourly.precipitation_probability[0]
+                        : 0;
+
+                    temp.textContent = `${Math.round(current.temperature_2m || 0)}°C`;
+                    humidity.textContent = `${Math.round(current.relative_humidity_2m || 0)}%`;
+                    rain.textContent = `${Math.round(probability)}%`;
+                    weatherStatus.textContent = "Live";
+
+                    const risk = (current.relative_humidity_2m || 0) > 75 || probability > 50;
+                    weatherAdvice.textContent = risk
+                        ? "Disease risk is higher today. Avoid wetting leaves and inspect plants closely."
+                        : "Weather risk looks moderate. Keep routine prevention active.";
+                })
+                .catch(() => {
+                    weatherStatus.textContent = "Offline";
+                    weatherAdvice.textContent = "Weather could not load. Check internet connection or location access.";
+                });
+        }
+
+        if ("geolocation" in navigator) {
+            navigator.geolocation.getCurrentPosition(
+                position => loadWeather(position.coords.latitude, position.coords.longitude),
+                () => {
+                    weatherStatus.textContent = "Default";
+                    weatherAdvice.textContent = "Location blocked. Showing default crop-care guidance.";
+                    temp.textContent = "28°C";
+                    humidity.textContent = "65%";
+                    rain.textContent = "20%";
+                }
+            );
+        }
+    </script>
 </body>
 </html>
