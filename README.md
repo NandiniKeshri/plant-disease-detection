@@ -60,7 +60,7 @@ The project aims to assist farmers, agricultural researchers, and students in ea
 ## 🏠 Home Dashboard
 
 <p align="center">
-  <img src="./assets/Home1.png" width="100%" alt="Homepage"/>
+  <img src="./assets/Home!.png" width="100%" alt="Homepage"/>
   <img src="./assets/Home2.png" width="100%" alt="Homepage"/>
 </p>
 
@@ -69,7 +69,10 @@ The project aims to assist farmers, agricultural researchers, and students in ea
 ## 🌱 Prediction Result Dashboard
 
 <p align="center">
-  <img src="./assets/result-page.png" width="100%" alt="Prediction Result"/>
+  <img src="./assets/output.png" width="100%" alt="Prediction Result"/>
+  <img src="./assets/CauseOutput.png" width="100%" alt="Prediction Result"/>
+  <img src="./assets/PreventionOutput.png" width="100%" alt="Prediction Result"/>
+  <img src="./assets/TreatementOutput.png" width="100%" alt="Prediction Result"/>
 </p>
 
 ---
