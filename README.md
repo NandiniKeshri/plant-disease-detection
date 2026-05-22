@@ -60,7 +60,8 @@ The project aims to assist farmers, agricultural researchers, and students in ea
 ## 🏠 Home Dashboard
 
 <p align="center">
-  <img src="./assets/homepage.png" width="100%" alt="Homepage"/>
+  <img src="./assets/Home1.png" width="100%" alt="Homepage"/>
+  <img src="./assets/Home2.png" width="100%" alt="Homepage"/>
 </p>
 
 ---
