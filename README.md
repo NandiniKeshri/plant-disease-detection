@@ -3,7 +3,7 @@
 # 🌿 AgriVision AI
 ### AI-Based Plant Disease Detection & Crop Health Monitoring System
 
-<img src="./assets/banner.png" width="100%" alt="AgriVision AI Banner"/>
+<img src="assets/AgriVision logo.png" width="100%" alt="AgriVision AI Banner"/>
 
 <br>
 
