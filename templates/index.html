@@ -887,11 +887,12 @@
                         </div>
                     </label>
 
-                    <input class="file-input" type="file" id="fileInput" name="file" accept="image/*" capture="environment">
+                    <input class="file-input" type="file" id="fileInput" name="file" accept="image/*">
+                    <input class="file-input" type="file" id="cameraInput" name="cameraFile" accept="image/*" capture="environment">
 
                     <div class="upload-actions">
                         <label class="ghost-btn" for="fileInput" id="changeBtn" data-i18n="chooseImage">Choose Image</label>
-                        <label class="ghost-btn" for="fileInput" data-i18n="cameraCapture">Camera Capture</label>
+                        <label class="ghost-btn" for="cameraInput" data-i18n="cameraCapture">Camera Capture</label>
                     </div>
 
                     <div class="preview-wrap" id="previewWrap">
@@ -1105,6 +1106,7 @@
 
     <script>
         const fileInput = document.getElementById("fileInput");
+        const cameraInput = document.getElementById("cameraInput");
         const preview = document.getElementById("preview");
         const previewWrap = document.getElementById("previewWrap");
         const dropZone = document.getElementById("dropZone");
@@ -1468,8 +1470,22 @@
             fileSize.textContent = formatBytes(file.size);
         }
 
+        let activeFileInput = fileInput;
+
+        function setActiveFileInput(input) {
+            activeFileInput = input;
+            fileInput.name = input === fileInput ? "file" : "galleryFile";
+            cameraInput.name = input === cameraInput ? "file" : "cameraFile";
+        }
+
         fileInput.addEventListener("change", () => {
+            setActiveFileInput(fileInput);
             showPreview(fileInput.files[0]);
+        });
+
+        cameraInput.addEventListener("change", () => {
+            setActiveFileInput(cameraInput);
+            showPreview(cameraInput.files[0]);
         });
 
         ["dragenter", "dragover"].forEach(eventName => {
@@ -1493,10 +1509,12 @@
             const transfer = new DataTransfer();
             transfer.items.add(file);
             fileInput.files = transfer.files;
+            setActiveFileInput(fileInput);
             showPreview(file);
         });
 
         form.addEventListener("submit", () => {
+            setActiveFileInput(activeFileInput);
             loader.style.display = "flex";
         });
 
