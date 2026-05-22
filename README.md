@@ -74,9 +74,9 @@ The project aims to assist farmers, agricultural researchers, and students in ea
 
 <p align="center">
   <img src="./assets/output.png" width="100%" alt="Prediction Result"/>
-  <img src="./assets/CausesOutput.png" width="100%" alt="Prediction Result"/>
-  <img src="./assets/PreventionOutput.png" width="100%" alt="Prediction Result"/>
-  <img src="./assets/TreatementOutput.png" width="100%" alt="Prediction Result"/>
+  <img src="./assets/CausesOutput.png" width="100%" />
+  <img src="./assets/PreventionOutput.png" width="100%" />
+  <img src="./assets/TreatementOutput.png" width="100%" />
 </p>
 
 ---
