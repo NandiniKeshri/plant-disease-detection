@@ -22,7 +22,11 @@
 </div>
 
 ---
+# 🚀 Live Demo
 
+👉 Try the deployed project here:
+
+🌐 [https://your-render-link.onrender.com](https://plant-disease-detection-4b93.onrender.com)
 # 📖 Abstract
 
 AgriVision AI is an intelligent web-based application developed to identify plant diseases using Artificial Intelligence and Image Processing techniques. The system allows users to upload or capture plant leaf images and receive real-time disease predictions along with confidence scores, risk analysis, prevention guidelines, and treatment recommendations.
@@ -70,7 +74,7 @@ The project aims to assist farmers, agricultural researchers, and students in ea
 
 <p align="center">
   <img src="./assets/output.png" width="100%" alt="Prediction Result"/>
-  <img src="./assets/CauseOutput.png" width="100%" alt="Prediction Result"/>
+  <img src="./assets/CausesOutput.png" width="100%" alt="Prediction Result"/>
   <img src="./assets/PreventionOutput.png" width="100%" alt="Prediction Result"/>
   <img src="./assets/TreatementOutput.png" width="100%" alt="Prediction Result"/>
 </p>
@@ -177,17 +181,7 @@ npm run dev
 
 ---
 
-# 📸 Screenshots
 
-<div align="center">
-
-| Upload Section              | Prediction Result               |
-| --------------------------- | ------------------------------- |
-| ![](./assets/upload-ui.png) | ![](./assets/prediction-ui.png) |
-
-</div>
-
----
 
 # 📈 Future Enhancements
 
