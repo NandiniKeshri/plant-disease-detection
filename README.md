@@ -69,18 +69,18 @@ The project aims to assist farmers, agricultural researchers, and students in ea
 </p>
 
 ---
-## 🏠 Analyzing Dashboard
+## 📤 Upload & Prediction
 
 <p align="center">
-  <img src="./assets/Analyzing.png" width="100%" alt="Homepage"/>
+  <img src="./assets/Analyzing.png" width="100%" alt="Analyzing"/>
 </p>
 
 ---
 
-## 🌱 Prediction Result Dashboard
+## 🌱 Result Dashboard
 
 <p align="center">
-  <img src="./assets/Output (2).png" width="100%" alt="Prediction Result"/>
+  <img src="./assets/Output (2).png" width="100%" alt="Result"/>
   <img src="./assets/CausesOutput.png" width="100%" />
   <img src="./assets/PreventionOutput.png" width="100%" />
   <img src="./assets/TreatementOutput.png" width="100%" />
