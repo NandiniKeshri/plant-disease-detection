@@ -64,8 +64,15 @@ The project aims to assist farmers, agricultural researchers, and students in ea
 ## 🏠 Home Dashboard
 
 <p align="center">
-  <img src="./assets/Home!.png" width="100%" alt="Homepage"/>
+  <img src="./assets/home1.png" width="100%" alt="Homepage"/>
   <img src="./assets/Home2.png" width="100%" alt="Homepage"/>
+</p>
+
+---
+## 🏠 Analyzing Dashboard
+
+<p align="center">
+  <img src="./assets/Analyzing.png" width="100%" alt="Homepage"/>
 </p>
 
 ---
