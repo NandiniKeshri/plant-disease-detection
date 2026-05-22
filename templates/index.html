@@ -879,20 +879,20 @@
                 </div>
 
                 <form class="upload-form" id="form" action="/predict" method="post" enctype="multipart/form-data">
-                    <label class="drop-zone" id="dropZone" for="fileInput">
+                    <div class="drop-zone" id="dropZone" role="button" tabindex="0">
                         <div>
                             <div class="upload-icon">UP</div>
                             <strong data-i18n="dropImage">Drop a leaf image here</strong>
                             <p class="muted" data-i18n="browseText">or browse from your device. JPG and PNG are supported.</p>
                         </div>
-                    </label>
+                    </div>
 
-                    <input class="file-input" type="file" id="fileInput" name="file" accept="image/*">
+                    <input class="file-input" type="file" id="fileInput" name="file" accept=".jpg,.jpeg,.png">
                     <input class="file-input" type="file" id="cameraInput" name="cameraFile" accept="image/*" capture="environment">
 
                     <div class="upload-actions">
-                        <label class="ghost-btn" for="fileInput" id="changeBtn" data-i18n="chooseImage">Choose Image</label>
-                        <label class="ghost-btn" for="cameraInput" data-i18n="cameraCapture">Camera Capture</label>
+                        <button class="ghost-btn" type="button" id="chooseImageBtn" data-i18n="chooseImage">Choose Image</button>
+                        <button class="ghost-btn" type="button" id="cameraCaptureBtn" data-i18n="cameraCapture">Camera Capture</button>
                     </div>
 
                     <div class="preview-wrap" id="previewWrap">
@@ -902,7 +902,7 @@
                                 <strong id="fileName" data-i18n="selectedImage">Selected image</strong>
                                 <span class="label" id="fileSize" data-i18n="readyAnalysis">Ready for analysis</span>
                             </div>
-                            <label class="ghost-btn" for="fileInput" data-i18n="changeImage">Change Image</label>
+                            <button class="ghost-btn" type="button" id="changeImageBtn" data-i18n="changeImage">Change Image</button>
                         </div>
                     </div>
 
@@ -1112,6 +1112,9 @@
         const dropZone = document.getElementById("dropZone");
         const form = document.getElementById("form");
         const loader = document.getElementById("loader");
+        const chooseImageBtn = document.getElementById("chooseImageBtn");
+        const cameraCaptureBtn = document.getElementById("cameraCaptureBtn");
+        const changeImageBtn = document.getElementById("changeImageBtn");
         const fileName = document.getElementById("fileName");
         const fileSize = document.getElementById("fileSize");
         const clock = document.getElementById("clock");
@@ -1477,6 +1480,26 @@
             fileInput.name = input === fileInput ? "file" : "galleryFile";
             cameraInput.name = input === cameraInput ? "file" : "cameraFile";
         }
+
+        function openGalleryPicker() {
+            fileInput.click();
+        }
+
+        function openCameraCapture() {
+            cameraInput.click();
+        }
+
+        chooseImageBtn.addEventListener("click", openGalleryPicker);
+        changeImageBtn.addEventListener("click", openGalleryPicker);
+        cameraCaptureBtn.addEventListener("click", openCameraCapture);
+
+        dropZone.addEventListener("click", openGalleryPicker);
+        dropZone.addEventListener("keydown", event => {
+            if (event.key === "Enter" || event.key === " ") {
+                event.preventDefault();
+                openGalleryPicker();
+            }
+        });
 
         fileInput.addEventListener("change", () => {
             setActiveFileInput(fileInput);
