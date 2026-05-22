@@ -80,7 +80,7 @@ The project aims to assist farmers, agricultural researchers, and students in ea
 ## 🌱 Prediction Result Dashboard
 
 <p align="center">
-  <img src="./assets/output.png" width="100%" alt="Prediction Result"/>
+  <img src="./assets/Output (2).png" width="100%" alt="Prediction Result"/>
   <img src="./assets/CausesOutput.png" width="100%" />
   <img src="./assets/PreventionOutput.png" width="100%" />
   <img src="./assets/TreatementOutput.png" width="100%" />
