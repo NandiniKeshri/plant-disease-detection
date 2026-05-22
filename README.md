@@ -1,4 +1,3 @@
-````md
 <div align="center">
 
 # 🌿 AgriVision AI
@@ -273,4 +272,4 @@ If you found this project helpful:
 # 🌾 Empowering Smart Agriculture Through AI 🌾
 
 </div>
-```
+
